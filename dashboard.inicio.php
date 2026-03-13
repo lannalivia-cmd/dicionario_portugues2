@@ -3,71 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Início</title>
+    <title>Início - Login</title>
     <link rel="stylesheet" href="./css/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #e0f2f1; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .login-card { background: white; border-radius: 15px; width: 100%; max-width: 400px; }
+        .btn-entrar { background-color: #00acc1; color: white; width: 100%; border: none; padding: 10px; border-radius: 5px; }
+        .btn-entrar:hover { background-color: #00838f; color: white; }
+    </style>
 </head>
 <body>
+
     <div class="login-card p-4 shadow-lg">
         <div class="text-center mb-4">
-            <i class="bi bi-lightning-charge-fill" ></i>
             <h3 class="mt-2">Dicionário escolar</h3>
             <p class="text-muted small">Aprender mais, para formar bem!</p>
         </div>
-  <form>
-   
-  <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Senha</label>
-    <input type="password" class="form-control" id="exampleInputPassword1">
-  </div>
-  <div class="mb-3 form-check">
-    
-</form>
-   
-    </style>
-       <div class="mb-3 select-box">
-<select class="form-select">
-<option selected>Selecione uma opção</option>
-<option value="1">Sou aluno</option>
-<option value="2">Sou professor</option>
-</select>
-</div>
-<button type="button-1" class="btn btn-outline-info">Entrar</button>
-<script src="assets/js/login.js">
- 
+
+        <form id="loginForm" action="materias.php" method="POST">
+            
+            <div class="mb-3">
+                <label for="senha" class="form-label">Senha</label>
+                <input type="password" name="senha" class="form-control" id="senha" required>
+            </div>
+
+            <div class="mb-3">
+                <select name="tipo" class="form-select" id="tipo" required>
+                    <option value="" selected disabled>Selecione uma opção</option>
+                    <option value="1">Sou aluno</option>
+                    <option value="2">Sou professor</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-entrar">Entrar</button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            // Removi o e.preventDefault() para que ele permita o redirecionamento
+            const btn = this.querySelector('button');
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Entrando...';
+            
+            // O navegador agora vai seguir o "action" do form e ir para materias.php
+        });
+    </script>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-<script >
-document.getElementById('loginForm').addEventListener('submit', function(e) {
-    e.preventDefault(); // Impede a página de recarregar
-
-    // Pegamos os dados do formulário
-    const formData = new FormData(this);
-
-    // Fazemos a chamada para a sua API PHP
-    fetch('caminho/para/seu/arquivo_login.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json()) // Converte a resposta para JSON
-    .then(data => {
-        if (data.success) {
-            alert(data.message);
-            // Redireciona conforme o tipo de usuário
-            if (document.getElementById('tipo').value === 'aluno') {
-                window.location.href = 'painel_aluno.php';
-            } else {
-                window.location.href = 'painel_professor.php';
-            }
-        } else {
-            // Exibe o erro (ex: "Preencha todos os campos" ou "Senha incorreta")
-            alert('Erro: ' + data.message);
-        }
-    })
-    .catch(error => {
-        console.error('Erro na requisição:', error);
-        alert('Ocorreu um erro ao tentar entrar.');
-    });
-});
-</script>
 </html>
