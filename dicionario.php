@@ -101,19 +101,18 @@
             
           <div class="container">
     <button type="button" class="btn btn-primary" style="margin-left:2rem; margin-top:2rem;" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Adicionar palavra +
+  Adicionar +
 </button>
     
-    <div class="card shadow-sm" style="max-width:50rem; margin-left:2rem; margin-top:2rem; ">
-  
-  <div class="card-body" >
-    <h5 class="card-title">Figuras de linguagem</h5>
-    <p class="card-text"> Uma figura de linguagem é um recurso de expressão que foge do sentido comum (literal) das palavras para tornar a mensagem mais expressiva, emocionante ou enfática.</p>
+  <div class="card-body"  id="palavras"style="max-width:50rem; margin-left:2rem; margin-top:2rem; " >
+    <h5 class="card-title"></h5>
+    <p class="card-text"> </p>
     <img src="..." class="card-img-top" alt="...">
+  </div>
   </div>
 </div>
  
-</div>
+
                 
              
             
@@ -146,6 +145,44 @@
     </div>
   </div>
 </div>
+ <script>
+        
+        async function carregarPalavra() {
+    try {
+        const res = await fetch(`api/api_palavras.php`);
+        const resultado = await res.json();
+        const container = document.getElementById('palavras');
+
+        if (resultado.success) {
+            // 'p' é cada palavra que vem do banco
+            container.innerHTML = resultado.data.map(p => `
+                <div class="card shadow-sm mb-3" style="max-width:50rem; margin-left:2rem;">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">${p.nome_palavra}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">${p.categoria_palavra}</h6>
+                        <p class="card-text">${p.descricao_palavra}</p>
+                        <div class="d-flex justify-content-end">
+                             <a href="editar_ambiente.php?id=${p.id_palavra}" class="btn btn-sm btn-outline-primary me-2">
+                                <i class="bi bi-pencil"></i> Editar
+                             </a>
+                             <button class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-trash"></i> Deletar
+                             </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+    } catch (error) {
+        console.error("Erro ao carregar:", error);
+    }
+}
+
+carregarPalavra();
+    </script>
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
